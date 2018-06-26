@@ -49,7 +49,17 @@ public class UserAct {
 		return pagehelperUserList;
 	}
 	
-	@RequestMapping("mapperUserHtml.html")
+	/**
+	 * SpringBoot页面jsp跳转
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param pageNo
+	 * @param pageSize
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("mapperuserhtml.html")
 	public String  mapperUserHtml(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model,Integer pageNo,Integer pageSize,User user){
 		

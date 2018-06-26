@@ -83,6 +83,13 @@
 		    <artifactId>jstl</artifactId>
 		    <version>1.2</version>
        </dependency>
+       <!-- 热启动坐标 -->
+       <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>true</optional>
+       </dependency>
+    
 	</dependencies>
 
 	<build>
@@ -90,6 +97,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- SpringBoot热启动 -->
+				<configuration>
+                  <fork>true</fork>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>
