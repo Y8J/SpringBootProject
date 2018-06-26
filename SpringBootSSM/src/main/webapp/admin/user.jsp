@@ -7,6 +7,13 @@
 <title>第一次SpringBoot页面跳转</title>
 </head>
 <body>
-${user}
+<c:forEach var="i" items="${user}">
+    <c:out value="${i.id}" />
+    <c:out value="${i.name}" />
+    <c:out value="${i.password}" />
+    <c:out value="${i.status}" />
+    <c:out value="${i.email}" />
+    <c:out value="${i.mobile}" /> <br>
+</c:forEach>
 </body>
 </html>
