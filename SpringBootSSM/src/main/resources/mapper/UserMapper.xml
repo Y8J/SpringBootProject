@@ -1,0 +1,46 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gd.com.mapper.UserMapperXml">
+   <!-- 查询返回Map集合 -->
+   <select id="queryTestMap" resultType="HashMap">
+        SELECT
+           t.id   AS 'id',
+           t.name  AS 'name',
+           t.password  AS 'password',
+           t.status   AS 'status',
+           t.email  AS 'email',
+           t.mobile  AS 'mobile'
+       FROM
+               t_user t
+   </select>
+   
+   <!-- 查询返回实体类方法一 -->
+   <!--配置一个resultMap 指定返回的类型 -->
+    <!-- <resultMap id="testGo" type="test">
+        <id column="test_id" property="id" />
+        <result column="test_name" property="name" />
+        <result column="test_password" property="password" />
+    </resultMap>
+   <select id="queryTestPojo" resultMap="testGo">
+         SELECT
+           t.test_id,
+           t.test_name,
+           t.test_password
+         FROM
+           test t
+   </select> -->
+   
+   <!-- 查询返回实体类方法二 -->
+   <!--配置一个resultMap 指定返回的类型 -->
+   <select id="queryTestPojo" resultType="user">
+        SELECT
+           t.id  id,
+           t.name name,
+           t.password password,
+           t.status   status,
+           t.email email,
+           t.mobile  mobile
+       FROM
+               t_user t
+   </select>
+</mapper>
