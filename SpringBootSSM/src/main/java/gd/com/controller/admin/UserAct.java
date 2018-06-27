@@ -1,5 +1,6 @@
 package gd.com.controller.admin;
 
+import gd.com.config.PersonConfig;
 import gd.com.pojo.User;
 import gd.com.service.UserService;
 
@@ -49,6 +50,9 @@ public class UserAct {
 		return pagehelperUserList;
 	}
 	
+	
+	@Autowired
+	private PersonConfig personConfig;
 	/**
 	 * SpringBoot页面jsp跳转
 	 * @param request
@@ -62,7 +66,10 @@ public class UserAct {
 	@RequestMapping("mapperuserhtml.html")
 	public String  mapperUserHtml(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model,Integer pageNo,Integer pageSize,User user){
-		
+		PersonConfig p = personConfig;
+		String msg = p.getName()+"---"+p.getAge()+"---"+p.getBoss();
+		model.addAttribute("msg", msg);
+		System.out.println(p.getName());
 		List<User> pagehelperUserList = userservice.pagehelperUserList(user, pageNo, pageSize);
 		model.addAttribute("user", pagehelperUserList);
 		return "admin/user";

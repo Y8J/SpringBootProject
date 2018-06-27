@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  */
 //
-@MapperScan(basePackages = "gd.com.mapper") //与dao层的@Mapper二选一写上即可(主要作用是扫包)
+/*@MapperScan(basePackages = "gd.com.mapper") //与dao层的@Mapper二选一写上即可(主要作用是扫包)
 @EnableTransactionManagement//开启事务管理
-@SpringBootApplication
+@SpringBootApplication*/
 public class SpringBootMain {
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		SpringApplication.run(SpringBootMain.class, args);
-	}
+	}*/
 }
