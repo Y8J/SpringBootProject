@@ -2,6 +2,7 @@ package gd.com.controller.admin;
 
 import gd.com.config.PersonConfig;
 import gd.com.pojo.Permission;
+import gd.com.pojo.Role;
 import gd.com.pojo.User;
 import gd.com.service.UserService;
 
@@ -118,6 +119,18 @@ public class UserAct {
 		List<Permission> pagehelperUserList = userservice.findPermissionByUserId(user);
 		
 		return pagehelperUserList;
+	}
+	
+	
+	/**
+	 * 根据用户查询用户所有角色
+	 */
+	@ResponseBody
+	@RequestMapping("findRoleByUserId.do")
+	public List<Role> findRoleByUserId(HttpServletRequest request,HttpServletResponse response,
+			ModelMap model,User user){
+		List<Role> findPermissionByUserId = userservice.findRoleByUserId(user);
+	    return findPermissionByUserId;
 	}
 	
 }

@@ -7,6 +7,7 @@ import gd.com.mapper.UserMapper;
 import gd.com.mapper.UserMapperXml;
 import gd.com.mapper.UserRoleMapper;
 import gd.com.pojo.Permission;
+import gd.com.pojo.Role;
 import gd.com.pojo.User;
 import gd.com.service.UserService;
 
@@ -86,6 +87,15 @@ public class UserServiceImpl implements UserService {
 	public List<Permission> findPermissionByUserId(User user) {
 		List<Permission> findPermissionByUserId = userMapperXml.findPermissionByUserId(user);
 		return findPermissionByUserId;
+	}
+	
+	
+	/**
+	 * 根据用户查询用户所有权限
+	 */
+	public List<Role> findRoleByUserId(User user){
+		List<Role> findRoleByUserId = userMapperXml.findRoleByUserId(user);
+		return findRoleByUserId;
 	}
 
 }

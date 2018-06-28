@@ -1,6 +1,7 @@
 package gd.com.service;
 
 import gd.com.pojo.Permission;
+import gd.com.pojo.Role;
 import gd.com.pojo.User;
 
 import java.util.List;
@@ -40,4 +41,9 @@ public interface UserService {
 	 * 根据用户查询用户所有权限
 	 */
 	public List<Permission> findPermissionByUserId(User user);
+	
+	/**
+	 * 根据用户查询用户所有权限
+	 */
+	public List<Role> findRoleByUserId(User user);
 }

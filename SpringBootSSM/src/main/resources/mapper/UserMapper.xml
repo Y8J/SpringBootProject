@@ -47,7 +47,7 @@
    <!-- 根据用户ID查询用户所有权限 parameterType为输入类型 -->
    <select id="findPermissionByUserId" resultType="permission" parameterType="user">
         SELECT
-             DISTINCT  p.*
+              p.*
         FROM
                t_user u,
                t_user_role ur,
@@ -62,6 +62,25 @@
 	          <choose>    
 	              <when test="id!=null and id!=''">and u.id = #{id}</when>    
 	              <when test="name!=null or name==''">and u.name=#{name}</when>  
+	          </choose>    
+	      </where> 
+   </select>
+   
+    <!-- 根据用户ID查询用户所有角色 parameterType为输入类型 -->
+   <select id="findRoleByUserId" resultType="role" parameterType="user">
+        SELECT
+              r.*
+        FROM
+               t_user u,
+               t_user_role ur,
+               t_role r
+	       <where>
+	          u.id = ur.user_id
+	          and ur.role_id = r.id
+	          and u.id = ur.user_id
+	          <choose>    
+	              <when test="id!=null and id!=''">and u.id = #{id}</when>
+	              <when test="name!=null or name==''">and u.name=#{name}</when> 
 	          </choose>    
 	      </where> 
    </select>

@@ -1,9 +1,9 @@
 package gd.com.mapper;
 
 import gd.com.pojo.Permission;
+import gd.com.pojo.Role;
 import gd.com.pojo.User;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,4 +22,9 @@ public interface UserMapperXml {
 	 * 根据用户查询用户所有权限
 	 */
 	public List<Permission> findPermissionByUserId(User user);
+	
+	/**
+	 * 根据用户查询用户所有角色
+	 */
+	public List<Role> findRoleByUserId(User user);
 }
