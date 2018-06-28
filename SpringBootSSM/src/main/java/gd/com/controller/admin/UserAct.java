@@ -4,6 +4,7 @@ import gd.com.config.PersonConfig;
 import gd.com.pojo.User;
 import gd.com.service.UserService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.PageInfo;
 
 @RequestMapping("user")
 @Controller
@@ -22,6 +27,28 @@ public class UserAct {
 
 	@Autowired
 	private UserService userservice;
+	    @Autowired
+	    private UserService userService;
+
+	    @RequestMapping("/userpage")
+	    public String index(Model model,User user, 
+	    		            @RequestParam(defaultValue = "1") Integer pageNum, 
+	    		            @RequestParam(defaultValue = "3") Integer pageSize) {
+	        PageInfo<User> pageInfo = userService.findAll(user, pageNum, pageSize);
+	        //获得当前页
+	        model.addAttribute("pageNum", pageInfo.getPageNum());
+	        //获得一页显示的条数
+	        model.addAttribute("pageSize", pageInfo.getPageSize());
+	        //是否是第一页
+	        model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
+	        //获得总页数
+	        model.addAttribute("totalPages", pageInfo.getPages());
+	        //是否是最后一页
+	        model.addAttribute("isLastPage", pageInfo.isIsLastPage());
+	        model.addAttribute("users", pageInfo.getList());
+
+	        return "userTable";
+	    }
 	
 	@ResponseBody
 	@RequestMapping("page")

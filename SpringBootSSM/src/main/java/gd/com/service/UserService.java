@@ -5,6 +5,8 @@ import gd.com.pojo.User;
 import java.util.List;
 import java.util.Map;
 
+import com.github.pagehelper.PageInfo;
+
 public interface UserService {
 
 	/**
@@ -23,4 +25,13 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User>  UserXmlBean();
+
+	/**
+	 * 分页数据携带显示
+	 * @param user
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public PageInfo<User> findAll(User user, Integer pageNo, Integer pageSize);
 }

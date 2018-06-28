@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- 引入thymeleaf模板引擎提示 -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>用户分页列表显示</title>
+</head>
+<body>
+
+<table class="table table-hover" style="border-collapse: 0" width="50%">
+            <thead>
+                <tr>
+                    <th>用户编号</th>
+                    <th>用户名</th>
+                    <th>用户密码</th>
+                    <th>用户状态</th>
+                    <th>用户用户邮箱</th>
+                    <th>用户手机号码</th>
+                </tr>
+            </thead>
+            <tr th:each="user : ${users}">
+                <th th:text="${user.id}"></th>
+                <th th:text="${user.name}"></th>
+                <th th:text="${user.password}"></th>
+                <th th:text="${user.status}"></th>
+                <!-- <th th:text="${#dates.format(user.birthday, 'yyyy-MM-dd')}"></th> -->
+                <th th:text="${user.email}"></th>
+                <th th:text="${user.mobile}"></th>
+            </tr>
+</table>
+<nav>
+    <ul class="pagination">
+        <li><a href="">&laquo;</a></li>
+
+        <li>
+            <a th:if="${not isFirstPage}" th:href="@{${'/user/userpage'}(pageNum=${pageNum-1},pageSize=${pageSize})}">Previous</a>
+            <a th:if="${isFirstPagee}" href="javascript:void(0);">Previous</a>
+        </li>
+
+        <li th:each="pageNo : ${#numbers.sequence(1, totalPages)}">
+            <a th:if="${pageNum eq pageNo}" href="javascript:void(0);">
+                 <span th:text="${pageNo}"></span>
+            </a>
+
+            <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'/user/userpage'}(pageNum=${pageNo},pageSize=${pageSize})}">
+                <span th:text="${pageNo}"></span>
+            </a>
+        </li>
+        <li>
+                <a th:if="${not isLastPage}" th:href="@{${'/user/userpage'}(pageNum=${pageNum+1},pageSize=${pageSize})}">Next</a>
+                <a th:if="${isLastPage}" href="javascript:void(0);">Next</a>
+            </li>
+
+        <li><a href="#">&raquo;</a></li>
+    </ul>
+</nav>
+        
+</body>
+</html>
