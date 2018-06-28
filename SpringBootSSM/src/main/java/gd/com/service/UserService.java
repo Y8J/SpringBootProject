@@ -1,5 +1,6 @@
 package gd.com.service;
 
+import gd.com.pojo.Permission;
 import gd.com.pojo.User;
 
 import java.util.List;
@@ -34,4 +35,9 @@ public interface UserService {
 	 * @return
 	 */
 	public PageInfo<User> findAll(User user, Integer pageNo, Integer pageSize);
+	
+	/**
+	 * 根据用户查询用户所有权限
+	 */
+	public List<Permission> findPermissionByUserId(User user);
 }

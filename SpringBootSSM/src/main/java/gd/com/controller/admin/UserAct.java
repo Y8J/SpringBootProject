@@ -1,10 +1,10 @@
 package gd.com.controller.admin;
 
 import gd.com.config.PersonConfig;
+import gd.com.pojo.Permission;
 import gd.com.pojo.User;
 import gd.com.service.UserService;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,28 +27,26 @@ public class UserAct {
 
 	@Autowired
 	private UserService userservice;
-	    @Autowired
-	    private UserService userService;
 
-	    @RequestMapping("/userpage")
-	    public String index(Model model,User user, 
-	    		            @RequestParam(defaultValue = "1") Integer pageNum, 
-	    		            @RequestParam(defaultValue = "3") Integer pageSize) {
-	        PageInfo<User> pageInfo = userService.findAll(user, pageNum, pageSize);
-	        //获得当前页
-	        model.addAttribute("pageNum", pageInfo.getPageNum());
-	        //获得一页显示的条数
-	        model.addAttribute("pageSize", pageInfo.getPageSize());
-	        //是否是第一页
-	        model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
-	        //获得总页数
-	        model.addAttribute("totalPages", pageInfo.getPages());
-	        //是否是最后一页
-	        model.addAttribute("isLastPage", pageInfo.isIsLastPage());
-	        model.addAttribute("users", pageInfo.getList());
+    @RequestMapping("/userpage")
+    public String index(Model model,User user, 
+    		            @RequestParam(defaultValue = "1") Integer pageNum, 
+    		            @RequestParam(defaultValue = "3") Integer pageSize) {
+        PageInfo<User> pageInfo = userservice.findAll(user, pageNum, pageSize);
+        //获得当前页
+        model.addAttribute("pageNum", pageInfo.getPageNum());
+        //获得一页显示的条数
+        model.addAttribute("pageSize", pageInfo.getPageSize());
+        //是否是第一页
+        model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
+        //获得总页数
+        model.addAttribute("totalPages", pageInfo.getPages());
+        //是否是最后一页
+        model.addAttribute("isLastPage", pageInfo.isIsLastPage());
+        model.addAttribute("users", pageInfo.getList());
 
-	        return "userTable";
-	    }
+        return "userTable";
+    }
 	
 	@ResponseBody
 	@RequestMapping("page")
@@ -101,4 +99,25 @@ public class UserAct {
 		model.addAttribute("user", pagehelperUserList);
 		return "admin/user";
 	}
+	
+	/**
+	 * SpringBoot页面jsp跳转
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param pageNo
+	 * @param pageSize
+	 * @param user
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("findPermissionByUser.do")
+	public List<Permission>  findPermissionByUser(HttpServletRequest request,HttpServletResponse response,
+			ModelMap model,User user){
+		
+		List<Permission> pagehelperUserList = userservice.findPermissionByUserId(user);
+		
+		return pagehelperUserList;
+	}
+	
 }

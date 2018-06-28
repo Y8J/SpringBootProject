@@ -1,5 +1,6 @@
 package gd.com.mapper;
 
+import gd.com.pojo.Permission;
 import gd.com.pojo.User;
 
 import java.util.HashMap;
@@ -16,4 +17,9 @@ public interface UserMapperXml {
 	public List<Map<Object,Object>> queryTestMap();
 	
 	public List<User> queryTestPojo();
+	
+	/**
+	 * 根据用户查询用户所有权限
+	 */
+	public List<Permission> findPermissionByUserId(User user);
 }

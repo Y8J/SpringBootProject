@@ -43,4 +43,26 @@
        FROM
                t_user t
    </select>
+   
+   <!-- 根据用户ID查询用户所有权限 parameterType为输入类型 -->
+   <select id="findPermissionByUserId" resultType="permission" parameterType="user">
+        SELECT
+             DISTINCT  p.*
+        FROM
+               t_user u,
+               t_user_role ur,
+               t_role r,
+               t_role_permission rp,
+               t_permission p
+	       <where> 
+	           p.id = rp.permission_id
+               and rp.role_id = r.id
+               and rp.role_id = ur.role_id
+               and ur.user_id =  u.id          
+	          <choose>    
+	              <when test="id!=null and id!=''">and u.id = #{id}</when>    
+	              <when test="name!=null or name==''">and u.name=#{name}</when>  
+	          </choose>    
+	      </where> 
+   </select>
 </mapper>
