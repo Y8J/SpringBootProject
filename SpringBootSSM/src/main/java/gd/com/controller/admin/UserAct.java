@@ -5,7 +5,7 @@ import gd.com.pojo.Permission;
 import gd.com.pojo.Role;
 import gd.com.pojo.User;
 import gd.com.service.UserService;
-import gd.com.utils.redisUtils.RedisHelperImpl;
+import gd.com.utils.redisutils.RedisHelperImpl;
 
 import java.util.List;
 import java.util.Map;

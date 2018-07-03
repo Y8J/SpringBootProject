@@ -46,6 +46,7 @@ public class UserInterceptor implements HandlerInterceptor {
 			Object arg2) throws Exception {
 		String ip = getIpAddr(arg0);
 		System.out.println("拦截器获取的Ip地址为:"+ip);
+		
 		return true;
 	}
 	

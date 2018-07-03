@@ -1,4 +1,4 @@
-package gd.com.utils.redisUtils;
+package gd.com.utils.redisutils;
 
 import java.util.List;
 import java.util.Map;

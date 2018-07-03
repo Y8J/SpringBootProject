@@ -20,7 +20,7 @@ public class UserTime {
 	/**
 	 * 定时查询用户名
 	 */
-	@Scheduled(cron = "0/3 * * * * *")
+	@Scheduled(cron = "0/3 * * * * 6")
 	public void queryUsertimer(){
 		List<User> findAll = userservice.pagehelperUserList(null, 1, 10);
 		System.out.println(findAll.get(0).getName());

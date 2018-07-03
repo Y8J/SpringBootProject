@@ -1,4 +1,4 @@
-package gd.com.utils.redisUtils;
+package gd.com.utils.redisutils;
 
 import java.lang.reflect.Method;
 
@@ -19,6 +19,12 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 1、通过继承CachingConfigurerSupport，将Spring-Cache的缓存换为Redis 
+ * 2、使用适合项目的key生成策略cacheKeyGenerator
+ * @author yangjing
+ *
+ */
 @Configuration
 @EnableCaching
 public class RedisConfiguration extends CachingConfigurerSupport {
