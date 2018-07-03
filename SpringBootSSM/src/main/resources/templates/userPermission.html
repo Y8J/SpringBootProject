@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- 引入thymeleaf模板引擎提示 -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>用户分页列表显示</title>
+</head>
+<body>
+
+<table class="table table-hover" style="border-collapse: 0" width="50%">
+            <thead>
+                <tr>
+                    <th>权限名称</th>
+                    <th>权限链接</th>
+                </tr>
+            </thead>
+            <tr th:each="bean : ${permissionList}">
+                <th th:text="${bean.menuName}"></th>
+                <th ><a th:href="@{${bean.menuUrl}}">查询所有</a> </th>
+            </tr>
+</table>
+       
+</body>
+</html>

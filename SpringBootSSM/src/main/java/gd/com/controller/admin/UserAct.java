@@ -5,6 +5,7 @@ import gd.com.pojo.Permission;
 import gd.com.pojo.Role;
 import gd.com.pojo.User;
 import gd.com.service.UserService;
+import gd.com.utils.redisUtils.RedisHelperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 @RequestMapping("user")
@@ -29,6 +33,9 @@ public class UserAct {
 	@Autowired
 	private UserService userservice;
 
+	@Autowired
+	private RedisHelperImpl redisHelper;
+	
     @RequestMapping("/userpage")
     public String index(Model model,User user, 
     		            @RequestParam(defaultValue = "1") Integer pageNum, 
@@ -80,7 +87,6 @@ public class UserAct {
 	@Autowired
 	private PersonConfig personConfig;
 	/**
-	 * SpringBoot页面jsp跳转
 	 * @param request
 	 * @param response
 	 * @param model
@@ -102,7 +108,7 @@ public class UserAct {
 	}
 	
 	/**
-	 * SpringBoot页面jsp跳转
+	 * 查询用所有权限
 	 * @param request
 	 * @param response
 	 * @param model
@@ -111,14 +117,14 @@ public class UserAct {
 	 * @param user
 	 * @return
 	 */
-	@ResponseBody
-	@RequestMapping("findPermissionByUser.do")
-	public List<Permission>  findPermissionByUser(HttpServletRequest request,HttpServletResponse response,
+	@RequestMapping("findPermissionByUser.html")
+	public String  findPermissionByUser(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model,User user){
 		
-		List<Permission> pagehelperUserList = userservice.findPermissionByUserId(user);
+		List<Permission>  permissionList= userservice.findPermissionByUserId(user);
 		
-		return pagehelperUserList;
+		model.addAttribute("permissionList", permissionList);
+		return "userPermission";
 	}
 	
 	
@@ -131,6 +137,40 @@ public class UserAct {
 			ModelMap model,User user){
 		List<Role> findPermissionByUserId = userservice.findRoleByUserId(user);
 	    return findPermissionByUserId;
+	}
+	
+	
+	/**
+	 *  fastjson jar的神奇功能  对象转json  json转 对象
+	 *    <dependency>
+	 *		<groupId>com.alibaba</groupId>
+	 *	    <artifactId>fastjson</artifactId>
+	 *		<version>1.1.37</version>
+	 *    </dependency>
+	 * redis缓存技术查询
+	 */
+	@ResponseBody
+	@RequestMapping("findUserOrRedisByUserId.do")
+	public List<User> findUserOrRedisByUserId(HttpServletRequest request,HttpServletResponse response,
+			ModelMap model,User user,Integer pageNo,Integer pageSize){
+		 
+	    //获取redis中的value值
+		String jsonzhuan = redisHelper.getValue("findUserOrRedisByUserId").toString();
+		System.out.println(jsonzhuan); 
+		//json转化成为javaList对象
+		List<User> findObject =  (List<User>) JSON.parseArray(jsonzhuan, User.class);
+		
+		if(findObject!=null && !findObject.isEmpty()){
+			return findObject;
+		}
+		List<User> findUserOrRedisByUserId = userservice.pagehelperUserList(null, pageNo, pageSize);
+		
+		//list转化成为json
+		String json = JSON.toJSON(findUserOrRedisByUserId).toString();
+		
+		
+		redisHelper.valuePut("findUserOrRedisByUserId", json);
+		return findUserOrRedisByUserId;
 	}
 	
 }

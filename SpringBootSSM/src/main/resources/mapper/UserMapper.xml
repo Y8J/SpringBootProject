@@ -1,6 +1,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="gd.com.mapper.UserMapperXml">
+  
+  
+   <resultMap type="User" id="userResult">
+        <!--主键用<id>标签，表示把表中的id字段映射到实体类User中的user_id属性-->
+        <id property="id" column="id"/>
+        <!--非主键用<reslut>标签，表示把表中的name字段映射到实体类User的user_name属性-->
+        <result property="name" column="nane"/>
+        <result property="password" column="age"/>
+         <result property="status" column="nane"/>
+        <result property="email" column="age"/>
+         <result property="mobile" column="nane"/>
+    </resultMap>
+    
+    <resultMap type="permission" id="permissionResult">
+        <!--主键用<id>标签，表示把表中的id字段映射到实体类permission中的id属性-->
+        <!-- property 为pojo  column为数据库字段-->
+        <id property="id" column="id"/>
+        <!--非主键用<reslut>标签，表示把表中的name字段映射到实体类User的user_name属性-->
+        <result column="parent_id" property="parentId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="menu_icon" property="menuIcon"/>
+        <result column="sort_num" property="sortNum"/>
+        <result column="user_id" property="userId"/>
+        <result column="is_del" property="isDel"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    
+  
    <!-- 查询返回Map集合 -->
    <select id="queryTestMap" resultType="HashMap">
         SELECT
@@ -45,7 +75,7 @@
    </select>
    
    <!-- 根据用户ID查询用户所有权限 parameterType为输入类型 -->
-   <select id="findPermissionByUserId" resultType="permission" parameterType="user">
+   <select id="findPermissionByUserId" resultMap="permissionResult" parameterType="user">
         SELECT
               p.*
         FROM
@@ -78,7 +108,7 @@
 	          u.id = ur.user_id
 	          and ur.role_id = r.id
 	          and u.id = ur.user_id
-	          <choose>    
+	          <choose>
 	              <when test="id!=null and id!=''">and u.id = #{id}</when>
 	              <when test="name!=null or name==''">and u.name=#{name}</when> 
 	          </choose>    

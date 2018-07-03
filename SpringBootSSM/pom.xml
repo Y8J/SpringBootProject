@@ -104,12 +104,24 @@
 	     <artifactId>spring-boot-starter-tomcat</artifactId>
 	     <scope>provided</scope>
 	   </dependency> -->
-	   
+	   <!-- thymeleaf模板引擎pom -->
 	   <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
        
+       <!-- redis缓存pom -->
+       <dependency>  
+		   <groupId>org.springframework.boot</groupId>
+		   <artifactId>spring-boot-starter-data-redis</artifactId>  
+       </dependency>
+       <!-- fastjson.jar.简单的将list集合转换成json数组 -->
+	   <dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.1.37</version>
+	   </dependency>
+	   
 	</dependencies>
 
 	<build>
