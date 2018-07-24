@@ -6,6 +6,10 @@ import gd.com.pojo.Role;
 import gd.com.pojo.User;
 import gd.com.service.UserService;
 import gd.com.utils.redisutils.RedisHelperImpl;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import java.util.List;
 import java.util.Map;
@@ -13,8 +17,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +38,12 @@ public class UserAct {
 	@Autowired
 	private RedisHelperImpl redisHelper;
 	
+	@ApiOperation(value="获取用户列表返回PageInfo", notes="请求分页列表展示")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "pageNum", value = "当前页", required = true, dataType = "Integer"),
+        @ApiImplicitParam(name = "pageSize", value = "每页数量", required = true, dataType = "Integer"),
+        @ApiImplicitParam(name = "user", value = "用户对象", required = true, dataType = "User")
+    })
     @RequestMapping("/userpage")
     public String index(Model model,User user, 
     		            @RequestParam(defaultValue = "1") Integer pageNum, 
@@ -56,10 +64,15 @@ public class UserAct {
         return "userTable";
     }
 	
+	@ApiOperation(value="获取用户列表返回list", notes="请求分页列表展示")
+	
 	@ResponseBody
-	@RequestMapping("page")
+	@RequestMapping(value="page")
 	public List<User> pagehelperUserList(HttpServletRequest request,HttpServletResponse response,
-			ModelMap model,Integer pageNo,Integer pageSize,User user){
+			ModelMap model,
+			 Integer pageNo,
+			Integer pageSize,
+			User user){
 		
 		List<User> pagehelperUserList = userservice.pagehelperUserList(user, pageNo, pageSize);
 		return pagehelperUserList;
@@ -117,6 +130,10 @@ public class UserAct {
 	 * @param user
 	 * @return
 	 */
+	@ApiOperation(value="查询用所有权限", notes="查询用所有权限")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "user", value = "用户对象", required = true, dataType = "User")
+    })
 	@RequestMapping("findPermissionByUser.html")
 	public String  findPermissionByUser(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model,User user){
@@ -141,7 +158,7 @@ public class UserAct {
 	
 	
 	/**
-	 *  fastjson jar的神奇功能  对象转json  json转 对象
+	 *  fastjson jar的神奇功能  对象转json  json转对象
 	 *    <dependency>
 	 *		<groupId>com.alibaba</groupId>
 	 *	    <artifactId>fastjson</artifactId>

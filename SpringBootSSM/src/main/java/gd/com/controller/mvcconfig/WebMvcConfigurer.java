@@ -1,8 +1,8 @@
 package gd.com.controller.mvcconfig;
 
-import gd.com.controller.Interceptor.InterfaceInterceptor;
-
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
-
+	
 	/**
 	 * java配置跨域springboot配置Cors跨域
 	 */
@@ -45,8 +45,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         // addPathPatterns 用于添加拦截规则, 这里假设拦截 /url 后面的全部链接
         // excludePathPatterns 用户排除拦截
         //接口sign 安全认证拦截接口
-       registry.addInterceptor(new InterfaceInterceptor()).addPathPatterns("/**")
-                                                     .excludePathPatterns("/sign.do");
+      /* registry.addInterceptor(new InterfaceInterceptor()).addPathPatterns("/**")
+                                                     .excludePathPatterns("/sign.do");*/
 	
         super.addInterceptors(registry);
     }

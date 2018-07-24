@@ -25,8 +25,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author yangjing
  *
  */
-@Configuration
-@EnableCaching
+/*@Configuration
+@EnableCaching*/
 public class RedisConfiguration extends CachingConfigurerSupport {
 	private final static String redis_key_questions="ACTIVITY_QUESTION";
     private final static String redis_key_annual="ACTIVITY_ANNUAL";
