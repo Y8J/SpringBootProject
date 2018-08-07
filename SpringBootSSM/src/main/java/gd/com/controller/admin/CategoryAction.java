@@ -2,6 +2,7 @@ package gd.com.controller.admin;
 
 import gd.com.pojo.Category;
 import gd.com.service.CategoryService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +30,11 @@ public class CategoryAction {
      */
     @ResponseBody
     @RequestMapping(value="/queryLevelCategoryAll.do")
-    public ResponseEntity<Map<String,Object>> queryLevelCategoryAll(){
+    public ResponseEntity<Map<String,Object>> queryLevelCategoryAll(@RequestBody Category bean){
 
         try {
             //查询一级菜单
-            List<Category> categorys = categoryService.queryListAll(null);
+            List<Category> categorys = categoryService.queryListAll(bean);
             //存放转换后数据的集合
             List<Map<String,Object>> comboTreeList  =new ArrayList<Map<String,Object>>();
             createComboTreeTree(comboTreeList,categorys,0L);
@@ -109,6 +110,74 @@ public class CategoryAction {
         }
         return childList;
     }
+
+
+
+    /**
+     * 根据id查询商品分类节点的所有父节点递归
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/queryLevelCategoryAllById.do")
+    public ResponseEntity<Map<String,Object>> queryLevelCategoryAll(Long id){
+
+        try {
+            Category bean = new Category();
+            bean.setId(id);
+            //查询一级菜单
+            Category category = categoryService.queryBeanById(id);
+            List<Category> gotlist  = new ArrayList<Category>();
+            getSelfAndTheirParentRecord(category,gotlist);
+            gotlist.add(category);
+            //存放转换后数据的集合
+            List<Map<String,Object>> comboTreeList  =new ArrayList<Map<String,Object>>();
+            createComboTreeTree(comboTreeList,gotlist,0L);
+            if (comboTreeList.isEmpty()) {
+                // 资源不存在，响应404
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("data",comboTreeList);
+            // 200 return ResponseEntity.status(HttpStatus.OK).body(user);
+            return ResponseEntity.ok(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 500
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+
+    }
+
+
+    /**
+     *
+     * @param son 根据子节点关键字过滤出来的相关节点的父节点
+     * @param resultList 返回的过滤出来的节点
+     * @return
+     */
+    private void getSelfAndTheirParentRecord(Category son, List<Category> resultList) {
+
+
+        Category ca = categoryService.queryBeanById(son.getParentId());
+
+        Category parent = new Category();
+        parent.setParentId(ca.getParentId());
+
+        List<Category> list = categoryService.queryListAll(parent);
+        for (Category cat :list) {
+            if(!(resultList.contains(cat))){
+                resultList.add(cat);
+            }
+        }
+
+        if(list!=null && (!list.isEmpty()) && list.get(0).getParentId()!=0){
+            Category son1 = list.get(0);
+            getSelfAndTheirParentRecord(son1,resultList);
+        }
+
+    }
+
+
 
 
     /**
